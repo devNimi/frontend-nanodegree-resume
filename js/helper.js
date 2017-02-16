@@ -13,21 +13,25 @@ These are HTML strings. As part of the course, you'll be using JavaScript functi
 replace the %data% placeholder text you see in them.
 */
 var HTMLheaderName = '<h1 id="name">%data%</h1>';
-var HTMLheaderRole = '<span>%data%</span><hr>';
+var HTMLheaderRole = '<span class="white-text"> %data%</span><hr>';
 
 var HTMLcontactGeneric = '<li class="flex-item"><span class="orange-text">%contact%</span><span class="white-text">%data%</span></li>';
-var HTMLmobile = '<li class="flex-item"><span class="orange-text">mobile</span><span class="white-text">%data%</span></li>';
-var HTMLemail = '<li class="flex-item"><span class="orange-text">email</span><span class="white-text">%data%</span></li>';
-var HTMLtwitter = '<li class="flex-item"><span class="orange-text">twitter</span><span class="white-text">%data%</span></li>';
-var HTMLgithub = '<li class="flex-item"><span class="orange-text">github</span><span class="white-text">%data%</span></li>';
-var HTMLblog = '<li class="flex-item"><span class="orange-text">blog</span><span class="white-text">%data%</span></li>';
-var HTMLlocation = '<li class="flex-item"><span class="orange-text">location</span><span class="white-text">%data%</span></li>';
+var HTMLmobile = '<li class="contacts-details"><span class="orange-text">mobile </span><span class="white-text"><span class="fa fa-mobile-phone white-text"></span> %data%</span></li>';
+var HTMLemail = '<li class="contacts-details"><span class="orange-text">email </span><span class="white-text"><span class="fa fa-envelope-o white-text"></span> %data%</span></li>';
+var HTMLtwitter = '<li class="contacts-details"><span class="orange-text">twitter </span><span class="white-text"><span class="fa fa-twitter"></span> %data%</span></li>';
+var HTMLgithub = '<li class="contacts-details"><span class="orange-text">github </span><span class="white-text"><span class="fa fa-github white-text"></span> %data%</span></li>';
+var HTMLblog = '<li class="contacts-details"><span class="orange-text">blog </span><span class="white-text"><span class="fa a-pencil-square-o white-text"></span> %data%</span></li>';
+var HTMLlocation = '<li class="contacts-details"><span class="orange-text">location </span><span class="white-text"><span class="fa  fa-location-arrow white-text"></span> %data%</span></li>';
 
-var HTMLbioPic = '<img src="%data%" class="biopic">';
-var HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
+var HTMLbioPic = '<li class="introduction-item-biopic"><img src="%data%" class="biopic"></li>';
+var HTMLwelcomeMsg = '<li class="welcome-message introduction-item-welcome-message"><span class="fa fa-user-secret"></span> %data%</li>';
 
-var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-column"></ul>';
-var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
+// created the below 2 variable so that 'biopic' , 'welcomeMessage' and 'skill' can be displayed more beautifully :P
+var HTMLintroduction = '<ul class="flex-box introduction"></ul>';
+var HTMLskillsAtAGlance = '<li class="skillsAtAGlance introduction-item-skills"></li>';
+
+var HTMLskillsStart = '<h3 id="skills-h3"><span class="fa  fa- fa-laptop"></span> Skills at a Glance:</h3><ul id="skills" class="white-text"></ul>';
+var HTMLskills = '<li class=""><span class="fa fa-bullhorn"> %data%</span></li>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
 var HTMLworkEmployer = '<a href="#">%data%';
@@ -37,10 +41,12 @@ var HTMLworkLocation = '<div class="location-text">%data%</div>';
 var HTMLworkDescription = '<p><br>%data%</p>';
 
 var HTMLprojectStart = '<div class="project-entry"></div>';
-var HTMLprojectTitle = '<a href="#">%data%</a>';
+var HTMLprojectTitle = '<a href="#">%data% <span class="fa fa-external-link"></span></a>';
 var HTMLprojectDates = '<div class="date-text">%data%</div>';
 var HTMLprojectDescription = '<p><br>%data%</p>';
 var HTMLprojectImage = '<img src="%data%">';
+// if be more than one images are passed to project object, this container's display: flex will handle it better
+var HTMLprojectImageContainer = '<div class="project-image-container"></div>';
 
 var HTMLschoolStart = '<div class="education-entry"></div>';
 var HTMLschoolName = '<a href="#">%data%';
@@ -49,11 +55,12 @@ var HTMLschoolDates = '<div class="date-text">%data%</div>';
 var HTMLschoolLocation = '<div class="location-text">%data%</div>';
 var HTMLschoolMajor = '<em><br>Major: %data%</em>';
 
-var HTMLonlineClasses = '<h3>Online Classes</h3>';
+var HTMLonlineClasses = '<h3>Online Classes <span class="fa fa-wifi"></span></h3>';
 var HTMLonlineTitle = '<a href="#">%data%';
 var HTMLonlineSchool = ' - %data%</a>';
 var HTMLonlineDates = '<div class="date-text">%data%</div>';
-var HTMLonlineURL = '<br><a href="#">%data%</a>';
+// var HTMLonlineURL = '<br><a href="#"%data%</a>';
+var HTMLonlineURL = '%data%';
 
 var internationalizeButton = '<button>Internationalize</button>';
 var googleMap = '<div id="map"></div>';
@@ -87,6 +94,9 @@ function logClicks(x,y) {
 
 $(document).click(function(loc) {
   // your code goes here!
+  var x = loc.pageX;
+  var y = loc.pageY;
+  logClicks(x,y);
 });
 
 
@@ -107,7 +117,18 @@ function initializeMap() {
   var locations;
 
   var mapOptions = {
-    disableDefaultUI: true
+    //https://developers.google.com/maps/documentation/javascript/controls#DefaultUI
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+      mapTypeIds: ['roadmap', 'terrain', 'satellite']
+    },
+    rotateControl: true,
+    fullscreenControl: true,
+    scaleControl: false
+    //Please note I could have set zoom level and map center here, but this doesn't work, as we are using map.fitBounds(Bounds) and The .fitBounds method resets the viewport and thus your zoom level is not taken in account.
+    //http://stackoverflow.com/questions/29875865/setting-zoom-level-doesnt-work-on-google-map
+    //so I am setting zoom at bottom at function.
   };
 
   /*
@@ -165,8 +186,21 @@ function initializeMap() {
     var marker = new google.maps.Marker({
       map: map,
       position: placeData.geometry.location,
-      title: name
+      animation: google.maps.Animation.DROP,
+      title: name,
+      label: name[0]
     });
+    //to animate markers
+    function toggleBounce() {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+        // so that when we click again on map pin it close infowindow
+        infoWindow.close();
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
 
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
@@ -178,6 +212,8 @@ function initializeMap() {
     // hmmmm, I wonder what this is about...
     google.maps.event.addListener(marker, 'click', function() {
       // your code goes here!
+      infoWindow.open(map, marker);
+      toggleBounce();
     });
 
     // this is where the pin actually gets added to the map.
@@ -187,6 +223,15 @@ function initializeMap() {
     map.fitBounds(bounds);
     // center the map
     map.setCenter(bounds.getCenter());
+
+    // this is necessary to do becuse on smaller viewport map becomes to small
+    //and looks terrrible. you can try by commenting the line below
+    //this all happens becuase 'Author' has been to soo many places around the world
+    // and we are calling fitBound, so to show all places Google Maps APIS, try to show all places
+    //which creates this problem, solution around this is to setZoom and we have to set it here, we can't do it in mapOptions
+
+    // And please note we gotta set this again at the event listen at bottom.
+    map.setZoom(2);
   }
 
   /*
@@ -239,11 +284,13 @@ Uncomment the code below when you're ready to implement a Google Map!
 */
 
 // Calls the initializeMap() function when the page loads
-//window.addEventListener('load', initializeMap);
+window.addEventListener('load', initializeMap);
 
 // Vanilla JS way to listen for resizing of the window
 // and adjust map bounds
-//window.addEventListener('resize', function(e) {
-  //Make sure the map bounds get updated on page resize
-//  map.fitBounds(mapBounds);
-//});
+window.addEventListener('resize', function(e) {
+  // Make sure the map bounds get updated on page resize
+ map.fitBounds(mapBounds);
+ // see createMapMarker function's bottom for more
+ map.setZoom(2);
+});
