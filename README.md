@@ -1,11 +1,11 @@
 # project hosted over [here](http://www.nimeshjain.com/projects/interactive-resume/)
 # Known issues
-* when infoWindow 'close' icon is clicked - this should stop marker animation too i.e. it should call toggleBounce() function
-# things to be added and modified
-* improve UI , bg colors, fonts etc eachContactInfo
+* when infoWindow 'close' icon is clicked - this should stop 'marker' animation too i.e. it should call toggleBounce() function.
+## things to be added and modified
+* improve UI , background colors, fonts etc
 * when project image is click, that should too redirect to project url
-* contact info - url to be added , as of right now click on 'twitter' or 'github' or '@devNimi' do nothing - respective url should be added to
-*Provide extra JavaScript interactivity in addition to the map. For example: RSS/Twitter feed, Bootstrap Navbar, Polymer components.
+* contact info - url to be added , as of right now click on 'twitter' or 'github' or '@devNimi' do nothing - respective url should be added too.
+* Provide extra JavaScript interactivity in addition to the map. For example: RSS/Twitter feed, Bootstrap Navbar, Polymer components.
 
 # Project Details
 ## How do I complete this project?
